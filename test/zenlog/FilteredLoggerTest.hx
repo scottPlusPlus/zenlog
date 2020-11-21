@@ -59,4 +59,15 @@ class FilteredLoggerTest extends utest.Test {
 		Assert.equals(1, testLogger.infoData.length);
 		Assert.equals(msg, testLogger.infoData[0].message);
 	}
+
+	function testHighlight(){
+		var testLogger = new TestLogger();
+		var filteredLogger = new FilteredLogger(testLogger);
+		filteredLogger.highlightList.push("foo");
+		filteredLogger.highlight = function(str:String):String{
+			return "***"+str+"***";
+		}
+		filteredLogger.info("foobar");
+		Assert.equals("***foobar***", testLogger.infoData[0].message);
+	}
 }

@@ -2,10 +2,10 @@
 	"name": "zenlog",
 	"url" : "https://github.com/scottPlusPlus/zenlog",
 	"license": "MIT",
-	"tags": ["wip"],
+	"tags": ["log"],
 	"description": "Simple logging fa�ade for haxe",
 	"version": "0.0.1",
-	"releasenote": "tbd",
+	"releasenote": "initial release. will spend some time using it before adding a major version",
 	"contributors": ["scottPlusPlus"],
 	"classPath": "src",
 	"dependencies": {}

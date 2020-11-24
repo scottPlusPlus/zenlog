@@ -135,7 +135,6 @@ class FilteredLogger implements ILogger {
 	}
 
 	public function calibrateIndentStart():Void {
-		trace("calibrateIndentStart");
 		try {
 			indentStackStart = CallStack.callStack().length;
 			Log.info('set indent start to ${indentStackStart}');

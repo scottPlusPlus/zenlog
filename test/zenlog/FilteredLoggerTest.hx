@@ -6,68 +6,65 @@ import utest.Assert;
 import zenlog.Log;
 
 class FilteredLoggerTest extends utest.Test {
-	function testLevels() {
-		var testLogger = new TestLogger();
-		var filteredLogger = new FilteredLogger(testLogger);
-		Log.Logger = filteredLogger;
 
+	private var _testLogger: TestLogger;
+	private var _filteredLogger:FilteredLogger;
+
+	function setup(){
+		_testLogger = new TestLogger();
+		_filteredLogger = new FilteredLogger(_testLogger);
+		_filteredLogger.indentStackStart = 999;
+		Log.Logger = _filteredLogger;
+	}
+
+	function testLevels() {
 		var msg = "test message";
 		var ext = ["test extra"];
 		Log.info(msg, ext);
-		Assert.equals(1, testLogger.infoData.length);
-		Assert.equals(msg, testLogger.infoData[0].message);
+		Assert.equals(1, _testLogger.infoData.length);
+		Assert.equals(msg, _testLogger.infoData[0].message);
 
-		filteredLogger.enableInfo = false;
+		_filteredLogger.enableInfo = false;
 		Log.info(msg, ext);
-		Assert.equals(1, testLogger.infoData.length);
+		Assert.equals(1, _testLogger.infoData.length);
 	}
 
 	function testHides() {
-		var testLogger = new TestLogger();
-		var filteredLogger = new FilteredLogger(testLogger);
-		Log.Logger = filteredLogger;
-
 		var msg = "test message";
 		var ext = ["test extra"];
 		Log.info(msg, ext);
-		Assert.equals(1, testLogger.infoData.length);
+		Assert.equals(1, _testLogger.infoData.length);
 
-		filteredLogger.hideList.push("test");
+		_filteredLogger.hideList.push("test");
 		Log.info(msg, ext);
-		Assert.equals(1, testLogger.infoData.length);
+		Assert.equals(1, _testLogger.infoData.length);
 
 		var msg_two = "not a t e s t";
 		Log.info(msg_two, ext);
-		Assert.equals(2, testLogger.infoData.length);
-		Assert.equals(msg_two, testLogger.infoData[1].message);
+		Assert.equals(2, _testLogger.infoData.length);
+		Assert.equals(msg_two, _testLogger.infoData[1].message);
 	}
 
 	function testShow() {
-		var testLogger = new TestLogger();
-		var filteredLogger = new FilteredLogger(testLogger);
-		Log.Logger = filteredLogger;
-
 		var msg = "test message";
 		var ext = ["test extra"];
-		filteredLogger.enableInfo = false;
+		_filteredLogger.enableInfo = false;
 
 		Log.info(msg, ext);
-		Assert.equals(0, testLogger.infoData.length);
-		filteredLogger.showList.push("mess");
+		Assert.equals(0, _testLogger.infoData.length);
+		_filteredLogger.showList.push("mess");
 
 		Log.info(msg, ext);
-		Assert.equals(1, testLogger.infoData.length);
-		Assert.equals(msg, testLogger.infoData[0].message);
+		Assert.equals(1, _testLogger.infoData.length);
+		Assert.equals(msg, _testLogger.infoData[0].message);
 	}
 
 	function testHighlight(){
-		var testLogger = new TestLogger();
-		var filteredLogger = new FilteredLogger(testLogger);
-		filteredLogger.highlightList.push("foo");
-		filteredLogger.highlight = function(str:String):String{
+		_filteredLogger.highlightList.push("foo");
+		_filteredLogger.highlight = function(str:String):String{
 			return "***"+str+"***";
 		}
-		filteredLogger.info("foobar");
-		Assert.equals("***foobar***", testLogger.infoData[0].message);
+		_filteredLogger.info("foobar");
+		Assert.equals("***foobar***", _testLogger.infoData[0].message);
 	}
 }

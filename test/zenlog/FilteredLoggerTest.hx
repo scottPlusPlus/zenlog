@@ -1,19 +1,18 @@
 package test.zenlog;
 
+import zenlog.LogTester;
 import zenlog.FilteredLogger;
-import utest.ITest;
 import utest.Assert;
 import zenlog.Log;
 
 class FilteredLoggerTest extends utest.Test {
 
-	private var _testLogger: TestLogger;
+	private var _testLogger: LogTester;
 	private var _filteredLogger:FilteredLogger;
 
 	function setup(){
-		_testLogger = new TestLogger();
+		_testLogger = new LogTester();
 		_filteredLogger = new FilteredLogger(_testLogger);
-		_filteredLogger.indentStackStart = 999;
 		Log.Logger = _filteredLogger;
 	}
 
@@ -30,19 +29,23 @@ class FilteredLoggerTest extends utest.Test {
 	}
 
 	function testHides() {
-		var msg = "test message";
-		var ext = ["test extra"];
-		Log.info(msg, ext);
+		var msg = "foo message";
+		Log.info(msg);
 		Assert.equals(1, _testLogger.infoData.length);
 
-		_filteredLogger.hideList.push("test");
-		Log.info(msg, ext);
+		_filteredLogger.hideList.push("foo");
+		Log.info(msg);
 		Assert.equals(1, _testLogger.infoData.length);
 
-		var msg_two = "not a t e s t";
-		Log.info(msg_two, ext);
+		var msg_two = "no f-word";
+		Log.info(msg_two);
 		Assert.equals(2, _testLogger.infoData.length);
 		Assert.equals(msg_two, _testLogger.infoData[1].message);
+
+		_filteredLogger.hideList.push("test");
+		Log.info(msg_two);
+		//log was hidden because its origin method / class contains "test"
+		Assert.equals(2, _testLogger.infoData.length);
 	}
 
 	function testShow() {

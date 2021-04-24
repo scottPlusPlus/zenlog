@@ -1,12 +1,12 @@
 package test.zenlog;
 
-import utest.ITest;
+import zenlog.LogTester;
 import utest.Assert;
 import zenlog.Log;
 
 class LogTest extends utest.Test {
 	function testLogsToLogger() {
-		var testLogger = new TestLogger();
+		var testLogger = new LogTester();
 		Log.Logger = testLogger;
 
 		var msg = "test message";

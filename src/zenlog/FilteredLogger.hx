@@ -17,8 +17,6 @@ class FilteredLogger implements ILogger {
 	public var enableWarn = true;
 	public var enableError = true;
 	public var enableCritical = true;
-	public var indentChar:String = " . .";
-	public var indentStackStart:Int = 0;
 
 	// showList shows even if level is disabled
 	public var showList: Array<String> = [];
@@ -101,45 +99,22 @@ class FilteredLogger implements ILogger {
 		return false;
 	}
 
+	private function mutateMsg(?msg:Dynamic, ?pos:haxe.PosInfos): Dynamic {
+		if (msg == null){
+			return msg;
+		}
+		if (!Std.is(msg, String)){
+			return msg;
+		}
+		var str = Std.string(msg);
+		str = conditionallyHighlight(str, pos);
+		return str;
+	}
+
 	private function conditionallyHighlight(message:String, ?pos:haxe.PosInfos):String {
 		if (passesList(message, pos, highlightList)){
 			return highlight(message);
 		}
 		return message;
-	}
-
-	private function mutateMsg(?msg:Dynamic, ?pos:haxe.PosInfos): Dynamic {
-		if (msg == null){
-			return msg;
-		}
-		// if (Std.is(msg, String)){
-		// 	var str : String = cast msg;
-		// }
-		var str = Std.string(msg);
-		str = conditionallyHighlight(str, pos);
-		str = indent(str);
-		return str;
-	}
-
-	private function indent(msg:String):String {
-		try {
-			var size = CallStack.callStack().length;
-			var prefix = "";
-			for (i in indentStackStart...size){
-				prefix += indentChar;
-			}
-			return prefix + " " + msg;
-		} catch (e:Dynamic){
-			return msg;
-		}
-	}
-
-	public function calibrateIndentStart():Void {
-		try {
-			indentStackStart = CallStack.callStack().length;
-			Log.info('set indent start to ${indentStackStart}');
-		} catch (e:Dynamic){
-			Log.error("Failed to calibrate indent start");
-		}
 	}
 }

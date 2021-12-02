@@ -1,5 +1,8 @@
 package zenlog;
 
+/*
+* Static Log service, which routes to an underlying ILogger
+*/
 class Log {
     public static var Logger:ILogger = new TraceLogger();
 

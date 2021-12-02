@@ -1,7 +1,5 @@
 package zenlog;
 
-import haxe.CallStack;
-
 class FilteredLogger implements ILogger {
 
     public function new(l:ILogger){

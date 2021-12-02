@@ -4,7 +4,19 @@ package zenlog;
 * Static Log service, which routes to an underlying ILogger
 */
 class Log {
+
+    /*
+    * Instance of an ILogger that all logs (ex: Log.debug) will be routed to
+    */
     public static var Logger:ILogger = new TraceLogger();
+
+    public static function useStringLogger(stringLogger:IStringLogger) {
+        Logger = new StringLogWrapper(stringLogger);
+    }
+
+    public static function useLogger(logger:ILogger){
+        Logger = logger;
+    }
 
     public static inline function debug (?message :Dynamic, ?extra :Array<Dynamic>, ?pos :haxe.PosInfos):Void{
         Logger.debug(message, extra, pos);

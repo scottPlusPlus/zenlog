@@ -1,6 +1,6 @@
 package zenlog;
 
-class TraceLogger implements ILogger  {
+class TraceLogger {
 	
 	public function new(){}
 	

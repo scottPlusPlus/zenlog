@@ -1,6 +1,6 @@
 package zenlog;
 
-class FilteredLogger implements ILogger {
+class FilteredLogger {
 
     public function new(l:ILogger){
 		wrappedLogger = l;

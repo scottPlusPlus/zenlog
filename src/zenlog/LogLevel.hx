@@ -1,3 +1,5 @@
+package zenlog;
+
 enum LogLevel {
     DEBUG;
     INFO;

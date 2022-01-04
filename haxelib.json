@@ -4,8 +4,8 @@
 	"license": "MIT",
 	"tags": ["log"],
 	"description": "Simple logging fa�ade for haxe",
-	"version": "0.1.0",
-	"releasenote": "initial release. will spend some time using it before adding a major version",
+	"version": "0.1.1",
+	"releasenote": "added the LogSplitter, to send your Logs to multiple receivers",
 	"contributors": ["scottPlusPlus"],
 	"classPath": "src",
 	"dependencies": {}

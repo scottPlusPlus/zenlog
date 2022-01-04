@@ -10,6 +10,10 @@ class Log {
     */
     public static var Logger:ILogger = new TraceLogger();
 
+    /*
+    * Use this to pass in a Logger implementation that only wants to deal with the strings of the incoming logs
+    * (ie, not worry aabout haxe's PosInfos)
+    */
     public static function useStringLogger(stringLogger:IStringLogger) {
         Logger = new StringLogWrapper(stringLogger);
     }
